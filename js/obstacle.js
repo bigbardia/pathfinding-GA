@@ -6,10 +6,6 @@ class Obstacle{
         this.y2 = y2;
     }
 
-
-
-
-
     display(){
         stroke(0);
         strokeWeight(6);

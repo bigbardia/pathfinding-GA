@@ -1,7 +1,8 @@
 const START = [200 , 400]
 const TARGET = [1700 , 700]
-const POPULATION_SIZE = 300
-const MUTATION_RATE = 0.01 // number between 0 to 1
+const POPULATION_SIZE = 400
+const MUTATION_RATE = 0.1 // number between 0 to 1
+const FEUL = 300;
 let obstacles = [];
 var click_counter = 0;
 var cords = [];
@@ -40,8 +41,8 @@ function draw() {
 
 
     
-    if (population.allDead()){
-        
+    if (population.allDone()){
+
         population.calcFitness();
         population.select();
         population.crossover();
@@ -57,12 +58,16 @@ function draw() {
         for (var rocket of population.rockets){
 
             
-            if (rocket.CollidedWithWall() || rocket.feulEnded()){
+            if (rocket.CollidedWithWall() || rocket.collidedWithLine()){
                 rocket.dead = true;
+                rocket.eliminated = true;
             }
 
+            if (rocket.feulEnded()){
+                rocket.eliminated = true;
+            }
 
-            if (!rocket.dead){
+            if (!rocket.eliminated){
                 rocket.move();
                 rocket.display();
             }

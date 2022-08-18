@@ -1,7 +1,5 @@
-var rocket;
-
 class Population{
-    constructor(pop_size) {
+    constructor(pop_size , feul) {
         this.pop_size = pop_size
         this.gen = 0;
         this.rockets = [];
@@ -17,16 +15,19 @@ class Population{
 
 
     calcFitness(){
-        for (rocket of this.rockets){
-
-            var distance = Math.sqrt((TARGET[0] - rocket.pos.x) ** 2 +  (TARGET[1] - rocket.pos.y) ** 2);
-            var score = 1/distance;
+        for (let rocket of this.rockets){
+            if (rocket.dead){
+                
+                score = 0;
+            }
+            else{
+                
+                var distance = Math.sqrt((TARGET[0] - rocket.pos.x) ** 2 +  (TARGET[1] - rocket.pos.y) ** 2);
+                var score = 1/(distance);
+                
+            }
             
-
-
-
             this.scores.push(score);
-
 
         }
             //sorting the scores and rockets
@@ -84,8 +85,8 @@ class Population{
             var rocket2 = this.selected[i + 1].dna;
 
             
-            var dna1 = rocket1.slice(0,600).concat(rocket2.slice(600,1200));
-            var dna2 = rocket2.slice(0,600).concat(rocket1.slice(600,1200));
+            var dna1 = rocket1.slice(0,FEUL/2).concat(rocket2.slice(FEUL/2,FEUL));
+            var dna2 = rocket2.slice(0,FEUL/2).concat(rocket1.slice(FEUL/2,FEUL));
 
             var new_rocket1 = new Rocket(START[0] , START[1]);
             new_rocket1.dna = dna1;
@@ -134,11 +135,12 @@ class Population{
 
 
 
-    allDead(){
+    allDone(){
         var result = true;
-        for (rocket of this.rockets){
-            if (rocket.dead === false){
+        for (let rocket of this.rockets){
+            if (!rocket.eliminated){
                 result = false;
+                break;
             }
         }
         return result;

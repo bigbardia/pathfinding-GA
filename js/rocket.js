@@ -1,15 +1,17 @@
 class Rocket {
 
     constructor(x, y) {
-        this.pos = createVector(x, y);
+        this.pos = createVector(x, y );
         
         this.vel = createVector(0, 0);
         this.width = 10;
         this.dead = false;
+        this.eliminated = false;
         this.count = 0;
+        this.feul = FEUL;
 
         this.dna = [];
-        for (let i = 0;i<1200;i++){
+        for (let i = 0;i<this.feul;i++){
             this.dna.push(createVector(random(-5, 5), random(-5, 5)));
         }
 
@@ -62,10 +64,29 @@ class Rocket {
     }
 
     feulEnded(){
-        return this.count > 99;
+        return this.count > this.feul-1;
     }
 
     collidedWithLine(){
-        //TODO : add the logic
+        var res = false;
+        for (let obs of obstacles){
+            
+            
+            var d1 = dist(this.pos.x , this.pos.y , obs.x1 , obs.y1);
+            var d2 = dist(this.pos.x , this.pos.y , obs.x2 , obs.y2);
+            var line_length = dist(obs.x1, obs.y1 , obs.x2 , obs.y2);
+
+
+            
+
+            var buffer = 5;
+            if (d1 + d2 >= line_length-buffer && d1 + d2 <= line_length + buffer){
+                res = true;
+                break;
+            }
+        }
+
+        return res;
+
     }
 }
