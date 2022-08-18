@@ -17,6 +17,8 @@ class Rocket {
 
     display() {
         fill(255,255,255);
+        strokeWeight(1);
+        stroke(0);
         ellipse(this.pos.x, this.pos.y, this.width);
     }
 
@@ -61,5 +63,9 @@ class Rocket {
 
     feulEnded(){
         return this.count > 99;
+    }
+
+    collidedWithLine(){
+        //TODO : add the logic
     }
 }
