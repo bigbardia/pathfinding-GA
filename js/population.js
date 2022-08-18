@@ -1,13 +1,14 @@
 var rocket;
 
 class Population{
-    constructor() {
+    constructor(pop_size) {
+        this.pop_size = pop_size
         this.gen = 0;
         this.rockets = [];
         this.scores = [];
         this.selected = [];
 
-        for (let i = 0; i < 100; i++){
+        for (let i = 0; i < pop_size; i++){
             this.rockets.push(new Rocket(START[0] , START[1]));
         }
     }
@@ -19,7 +20,12 @@ class Population{
         for (rocket of this.rockets){
 
             var distance = Math.sqrt((TARGET[0] - rocket.pos.x) ** 2 +  (TARGET[1] - rocket.pos.y) ** 2);
-            this.scores.push(1/distance);
+            var score = 1/distance;
+            
+
+
+
+            this.scores.push(score);
 
 
         }
@@ -38,31 +44,24 @@ class Population{
                 }
             }
         }
-        for (let i = 0; i < this.scores.length; i++){
-            this.scores[i] = Math.floor(this.scores[i] * 1000000000000000);
-        }
-    }
 
-    select(){ 
-        
 
-        
-
-        //adding all of the scores
         var sum = 0;
         for (let i = 0; i < this.scores.length; i ++){
             sum += this.scores[i];
         }
 
-        // normalizing the scores so they all sum up to 1!
+
         for (let i = 0; i < this.scores.length; i ++){
             this.scores[i] = this.scores[i] / sum
         }
 
 
-        //picking 50 rockets randomly
+    }
 
-        for (let i = 0; i < 50; i ++){
+    select(){ 
+
+        for (let i = 0; i < this.pop_size/2; i ++){
             var index = 0;
             var random_number = random(1);
             while (random_number > 0){

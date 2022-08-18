@@ -1,6 +1,7 @@
 const START = [200 , 400]
-const TARGET = [1800 , 400]
-const MUTATION_RATE = 0.1 // number between 0 to 1
+const TARGET = [1700 , 700]
+const POPULATION_SIZE = 300
+const MUTATION_RATE = 0.01 // number between 0 to 1
 
 function drawTarget(){
     fill(255 ,0 , 0);
@@ -14,11 +15,12 @@ var population;
 function setup() {
     createCanvas(1900, 800);
     background(100);
-    population = new Population();
+    population = new Population(POPULATION_SIZE);
 
 }
 
 function draw() {
+
     background(100);
     drawTarget();
     textSize(32);

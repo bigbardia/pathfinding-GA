@@ -4,7 +4,7 @@ class Rocket {
         this.pos = createVector(x, y);
         
         this.vel = createVector(0, 0);
-        this.width = 20;
+        this.width = 10;
         this.dead = false;
         this.count = 0;
 
