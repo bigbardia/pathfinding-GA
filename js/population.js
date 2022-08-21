@@ -16,15 +16,14 @@ class Population{
 
     calcFitness(){
         for (let rocket of this.rockets){
+            
+            
+            
+            var distance = Math.sqrt((TARGET[0] - rocket.pos.x) ** 2 +  (TARGET[1] - rocket.pos.y) ** 2);
+            var score = 1/(distance ** 2);
+
             if (rocket.dead){
-                
-                score = 0;
-            }
-            else{
-                
-                var distance = Math.sqrt((TARGET[0] - rocket.pos.x) ** 2 +  (TARGET[1] - rocket.pos.y) ** 2);
-                var score = 1/(distance);
-                
+                score *= 0;
             }
             
             this.scores.push(score);
@@ -45,6 +44,7 @@ class Population{
                 }
             }
         }
+
 
 
         var sum = 0;
@@ -73,6 +73,15 @@ class Population{
             this.selected.push(this.rockets[index]);
         }
 
+        this.special = [];
+        for (let i = 0; i < 2; i ++){
+            this.rockets[i].count = 0;
+            this.rockets[i].dead = false;
+            this.rockets[i].eliminated = false;
+        }
+        this.special.push(this.rockets[0]);
+        this.special.push(this.rockets[1]);
+
 
     }
 
@@ -87,6 +96,8 @@ class Population{
             
             var dna1 = rocket1.slice(0,FEUL/2).concat(rocket2.slice(FEUL/2,FEUL));
             var dna2 = rocket2.slice(0,FEUL/2).concat(rocket1.slice(FEUL/2,FEUL));
+            
+
 
             var new_rocket1 = new Rocket(START[0] , START[1]);
             new_rocket1.dna = dna1;
@@ -115,7 +126,7 @@ class Population{
             var new_dna = [];
             for (let vector of this.rockets[i].dna){
 
-                if (random(1) < MUTATION_RATE){
+                if (random(1) <= MUTATION_RATE){
                     
                     new_dna.push(createVector(random(-5,5) , random(-5,5)));
                 }
@@ -126,6 +137,8 @@ class Population{
             this.rockets[i].dna = new_dna;
         }
 
+        this.rockets.push(this.special[0]);
+        this.rockets.push(this.special[1]);
 
 
         this.selected = [];
