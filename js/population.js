@@ -78,6 +78,7 @@ class Population{
             this.rockets[i].count = 0;
             this.rockets[i].dead = false;
             this.rockets[i].eliminated = false;
+            this.rockets[i].pos = createVector(200,400);
         }
         this.special.push(this.rockets[0]);
         this.special.push(this.rockets[1]);
